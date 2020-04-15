@@ -22,6 +22,10 @@ public class Statistic implements Serializable {
 		this.value = value;
 	}
 
+	public Statistic() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public StatType getType() {
 		return type;
 	}
