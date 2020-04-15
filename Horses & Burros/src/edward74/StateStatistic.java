@@ -63,6 +63,10 @@ public class StateStatistic extends Statistic {
 
 
 
+	public StateStatistic() {
+
+	}
+
 	/**
 	 * Standard accessor method
 	 * @return the state

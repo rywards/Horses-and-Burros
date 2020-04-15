@@ -1,6 +1,7 @@
 package edward74;
-import java.io.File;
+import java.io.Reader;
 import java.io.BufferedReader;
+import java.io.IOException;
 // Driver for the herd management program.
 /**
  * @author Ryan Edwards
@@ -23,9 +24,28 @@ public class Driver {
 	 * @param data
 	 * @param file
 	 * @param numRows
+	 * @throws IOException 
 	 */
-	public void loadStatistics(DataSet data, File file, int numRows) {
-		
+	public void loadStatistics(DataSet data, Reader file, int numRows) throws IOException {
+		// Opening a buffered reader and instantiating a state's data
+				BufferedReader buffer = new BufferedReader(file);
+				StateStatistic state = new StateStatistic();
+				
+				String line;
+				int i = 0;
+				String delim = "[,]";
+		 		String[] tokens = buffer.readLine().split(delim);
+				
+		 		// Get to fourth line to begin taking data
+				do {
+					line = buffer.readLine();
+					i++;
+				} while (i < 3);
+				
+				// taking data from each line
+				for (i = 0; i < tokens.length; i++) {
+		 		    
+		 		}
 		return;
 	}
 	
