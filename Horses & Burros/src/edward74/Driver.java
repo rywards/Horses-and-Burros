@@ -23,7 +23,7 @@ public class Driver {
 	
 	/**
 	 * Method to load statistics from the file. Places each
-	 * row of data into a state with proper attributes.
+	 * row of data into a state with proper things.
 	 * 
 	 * @param data
 	 * @param file
