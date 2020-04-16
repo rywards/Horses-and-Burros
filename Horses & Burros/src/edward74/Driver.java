@@ -35,29 +35,25 @@ public class Driver {
 		// Opening a buffered reader and instantiating a state's data
 				BufferedReader buffer = new BufferedReader(file);
 				
+			while (buffer != null) {
+				StateStatistic stateStat = new StateStatistic();
+				
 				String line = buffer.readLine();
-				int i = 0;
 				String delim = "[,]";
-		 		String[] tokens = buffer.readLine().split(delim);
+		 		String[] tokens = line.split(delim);
 				
-		 		// TODO: count first line commas to get number of header rows. Temp code.
-				do {
-					line = buffer.readLine();
-					i++;
-				} while (i < 0);
-				
-				while (line != null) {
-					line = buffer.readLine();
-					
-					if (line == null) {
-						break;
-					}
-					System.out.println(line);
-				}
-				// taking data from each line
-				for (i = 0; i < tokens.length; i++) {
-		 		    
+		 		for (int i = 0; i < tokens.length; i++) {
+		 			stateStat.setState(State.valueOf());
+		 			stateStat.setHerdAreaAcresBLM(herdAreaAcresBLM);
+		 			stateStat.setHerdAreaAcresOther(herdAreaAcresOther);
+		 			stateStat.setHerdManagementAreaAcresBLM(herdManagementAreaAcresBLM);
+		 			stateStat.setHerdManagementAreaAcresOther(herdManagementAreaAcresOther);
+		 			stateStat.setNumHorses(numHorses);
+		 			stateStat.setNumBurros(numBurros);
 		 		}
+	
+			}
+		 		
 		return;
 	}
 	
