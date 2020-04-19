@@ -4,13 +4,23 @@ import java.time.LocalDate;
 
 /**
  * Exception catches if the statistic file is not found
+ * @author Ryan edwards
  */
 public class StatisticDataNotFoundException extends RuntimeException{
 
-	private static final long serialVersionUID = -1535363645607776446L;
+	private String key;
 	
-	public StatisticDataNotFoundException(String message, Throwable error) {
-		super(message, error);
+	public StatisticDataNotFoundException(String key) {
+	
+		this.key = key;
+		toString();
+	}
+	
+	public String getKey() {
+		return key;
+	}
+	public String toString() {
+		return ("\nFilename: " + key + "\n" + "Date: " + LocalDate.now() + "\n");
 	}
 
 }

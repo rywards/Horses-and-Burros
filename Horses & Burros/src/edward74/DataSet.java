@@ -53,18 +53,19 @@ public class DataSet implements Serializable {
 	/**
 	 * Displays each row of statistics for each state
 	 * @param stats
+	 * @author Ryan Edwards
 	 */
 	public void displayStatistics (ArrayList<Statistic> stats) {
 		 
 		for (Statistic stat : stats) {
 			StateStatistic stateStats = (StateStatistic) stat;
-			System.out.println(stateStats.getState());
-			System.out.println(stateStats.getHerdAreaAcresBLM());
-			System.out.println(stateStats.getHerdAreaAcresOther());
-			System.out.println(stateStats.getHerdManagementAreaAcresBLM());
-			System.out.println(stateStats.getHerdManagementAreaAcresOther());
-			System.out.println(stateStats.getNumHorses());
-			System.out.println(stateStats.getNumBurros());
+			System.out.println(stateStats.getState() + ", " + stateStats.getHerdAreaAcresBLM() + 
+													   ", " + stateStats.getHerdAreaAcresOther() +
+											           ", " + stateStats.getHerdManagementAreaAcresBLM() + 
+											           ", " + stateStats.getHerdManagementAreaAcresOther() + 
+											           ", " + stateStats.getNumHorses() + 
+											           ", " + stateStats.getNumBurros());
+			
 			
 		}
 		

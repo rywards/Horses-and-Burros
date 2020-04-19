@@ -1,16 +1,9 @@
 package edward74;
 
 import java.io.Reader;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.xml.crypto.Data;
-
+import java.util.Random;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,42 +16,45 @@ import java.io.ObjectOutputStream;
 /**
  * Driver for the Herd Management program
  * @author Ryan Edwards
- * @version 4.15.2020
+ * @version 4.19.2020
  */
 public class Driver {
 
-	public static void main(String[] args) throws IOException, StatisticDataNotFoundException {
+	public static int NUM_HEADER_ROWS = 3;
+	public static int MAX_DATA_INDEX = 9;
+	public static int MIN_DATA_INDEX = 0;
+	public static void main(String[] args) throws IOException {
 		
 		// Setting up classes 
+		int dataToSerialize;
 		DataSet animalInfo = new DataSet();
-		String stateData = "herdManage.csv";
+		String stateData = "src/herdManagement.csv";
+		
+		try {
+			Reader herdManagement = new FileReader(stateData);
+			
+		} catch (FileNotFoundException f) {
+			throw new StatisticDataNotFoundException(stateData);
+		}
 		Reader herdManagement = new FileReader(stateData);
 		
-		try (Scanner file = new Scanner(new File(stateData))){
-			if (file.hasNextLine()) {
-				return;
-			}
-		} catch (StatisticDataNotFoundException s) {
-			if (stateData.isEmpty())
-				throw new StatisticDataNotFoundException(stateData, s);
-			LocalDate.now();
-		}
 		
-		loadStatistics(animalInfo, herdManagement, 7);
+		loadStatistics(animalInfo, herdManagement, NUM_HEADER_ROWS);
 		animalInfo.displayStatistics(animalInfo.getStats());
-		serialize(animalInfo.getStats().get(8));
+		serialize(animalInfo.getStats().get(randStateData(MIN_DATA_INDEX, MAX_DATA_INDEX)));
 		deserialize(animalInfo.getStats());
 		
 	}
 	
 	/**
 	 * Method to load statistics from the file. Places each
-	 * row of data into a state with proper things.
+	 * row of data into a state with proper information.
 	 * 
 	 * @param data
 	 * @param file
 	 * @param numRows
 	 * @throws IOException 
+	 * @author Ryan Edwards
 	 */
 	public static void loadStatistics(DataSet data, Reader file, int numRows) throws IOException {
 		
@@ -76,7 +72,7 @@ public class Driver {
 			}
 				
 		 	// Skipping header rows and getting to data
-		 	while (i < 3) {
+		 	while (i < numRows) {
 		 		line = buffer.readLine();
 		 		i++;
 		 	}
@@ -109,17 +105,19 @@ public class Driver {
 		
 		// Serialization try catch block
 			try {
+				
 				 FileOutputStream fileOut =
 				  new FileOutputStream("HerdManagement.ser");
 				  ObjectOutputStream out = new ObjectOutputStream(fileOut);
 				  out.writeObject(statistic);
 				  out.close();
 				  fileOut.close();
-		          System.out.printf("Serialized data is saved in /(yourJavaProject)/HerdManagement.ser\n");
 					         
-					      } catch (IOException i) {
-					         i.printStackTrace();
-					      }
+			 } catch (IOException i) {
+				 
+				 i.printStackTrace();
+				 
+			 }
 			
 	}
 	
@@ -132,6 +130,7 @@ public class Driver {
 	 */
 	public static void deserialize(ArrayList<Statistic> stats) {
 		
+		// Deserialization process.
 		Statistic stat = null;
 		StateStatistic stateStats = (StateStatistic) stat;
 	      try {
@@ -144,9 +143,12 @@ public class Driver {
 	         
 	      } 
 	      catch (IOException i) {
+	    	  
 	         i.printStackTrace();
 	         return;
+	         
 	      } catch (ClassNotFoundException c) {
+	    	  
 	         System.out.println("State info class not found.\n");
 	         c.printStackTrace();
 	         return;
@@ -158,5 +160,17 @@ public class Driver {
 	    		 														 stateStats.getState()); 
 	}
 	
+	/**
+	 * Method to choose a random index to serialize
+	 * @param min
+	 * @param max
+	 * @return random number between min and max
+	 */
+	public static int randStateData(int min, int max) {
+
+		Random randNum = new Random();
+		return randNum.nextInt((max - min) + 1) + min;
+	}
+
 
 }
