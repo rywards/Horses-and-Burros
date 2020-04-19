@@ -1,11 +1,12 @@
 package edward74;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * A dataset is a collection of statistics
  */
-public class DataSet {
+public class DataSet implements Serializable {
 	
 	/** the collection of statistics **/
 	private ArrayList<Statistic> stats = new ArrayList<Statistic>(20);
@@ -48,6 +49,27 @@ public class DataSet {
 	public void setStats(ArrayList<Statistic> stats) {
 		this.stats = stats;
 	}
+	
+	/**
+	 * Displays each row of statistics for each state
+	 * @param stats
+	 */
+	public void displayStatistics (ArrayList<Statistic> stats) {
+		 
+		for (Statistic stat : stats) {
+			StateStatistic stateStats = (StateStatistic) stat;
+			System.out.println(stateStats.getState());
+			System.out.println(stateStats.getHerdAreaAcresBLM());
+			System.out.println(stateStats.getHerdAreaAcresOther());
+			System.out.println(stateStats.getHerdManagementAreaAcresBLM());
+			System.out.println(stateStats.getHerdManagementAreaAcresOther());
+			System.out.println(stateStats.getNumHorses());
+			System.out.println(stateStats.getNumBurros());
+			
+		}
+		
+	}
+	
 	
 	
 }

@@ -1,5 +1,7 @@
 package edward74;
 
+import java.io.Serializable;
+
 /**
  * This class will manage statistics for USA Herd Management data
  * 
@@ -15,7 +17,9 @@ package edward74;
  * @author myersjac
  *
  */
-public class StateStatistic extends Statistic {
+public class StateStatistic extends Statistic implements Serializable {
+	
+	private static final long serialVersionUID = -214748364780320L;
 	/** the state that contains herds of horses and burros **/
 	private State state;
 	

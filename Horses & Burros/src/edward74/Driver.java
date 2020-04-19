@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 
 /**
@@ -22,7 +24,9 @@ public class Driver {
 		DataSet animalInfo = new DataSet();
 		Reader herdManagement = new FileReader("herdManagement.csv");
 		loadStatistics(animalInfo, herdManagement, 7);
-		displayStatistics(animalInfo);
+		animalInfo.displayStatistics(animalInfo.getStats());
+		serialize(animalInfo);
+		
 	}
 	
 	/**
@@ -76,16 +80,25 @@ public class Driver {
 	}
 	
 	/**
-	 * Method to display statistics for each state
+	 * Serializes the dataset
 	 * @param data
 	 */
-	public static void displayStatistics(DataSet data) {
+	public static void serialize(DataSet data) {
 		
-		// TODO: Handle the output of the list so it doesn't print addresses
-		ArrayList<StateStatistic> stateStats = new ArrayList<StateStatistic>();
-		stateStats = data.getStats();
-		
-		
+		// Serialization try catch block
+			try {
+				 FileOutputStream fileOut =
+				  new FileOutputStream("/tmp/HerdManagement.ser");
+				  ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				  out.writeObject(data);
+				  out.close();
+				  fileOut.close();
+		          System.out.printf("Serialized data is saved in /tmp/HerdManagement.ser");
+					         
+					      } catch (IOException i) {
+					         i.printStackTrace();
+					      }
 	}
+	
 
 }
