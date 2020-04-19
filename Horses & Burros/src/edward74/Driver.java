@@ -1,13 +1,22 @@
 package edward74;
 
 import java.io.Reader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.xml.crypto.Data;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 
@@ -18,14 +27,27 @@ import java.io.ObjectOutputStream;
  */
 public class Driver {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, StatisticDataNotFoundException {
 		
 		// Setting up classes 
 		DataSet animalInfo = new DataSet();
-		Reader herdManagement = new FileReader("herdManagement.csv");
+		String stateData = "herdManage.csv";
+		Reader herdManagement = new FileReader(stateData);
+		
+		try (Scanner file = new Scanner(new File(stateData))){
+			if (file.hasNextLine()) {
+				return;
+			}
+		} catch (StatisticDataNotFoundException s) {
+			if (stateData.isEmpty())
+				throw new StatisticDataNotFoundException(stateData, s);
+			LocalDate.now();
+		}
+		
 		loadStatistics(animalInfo, herdManagement, 7);
 		animalInfo.displayStatistics(animalInfo.getStats());
-		serialize(animalInfo);
+		serialize(animalInfo.getStats().get(8));
+		deserialize(animalInfo.getStats());
 		
 	}
 	
@@ -80,20 +102,20 @@ public class Driver {
 	}
 	
 	/**
-	 * Serializes the dataset
-	 * @param data
+	 * Serializes the given statistic dataset.
+	 * @param statistic
 	 */
-	public static void serialize(DataSet data) {
+	public static void serialize(Statistic statistic) {
 		
 		// Serialization try catch block
 			try {
 				 FileOutputStream fileOut =
 				  new FileOutputStream("HerdManagement.ser");
 				  ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				  out.writeObject(data);
+				  out.writeObject(statistic);
 				  out.close();
 				  fileOut.close();
-		          System.out.printf("Serialized data is saved in /(yourJavaProject)/HerdManagement.ser");
+		          System.out.printf("Serialized data is saved in /(yourJavaProject)/HerdManagement.ser\n");
 					         
 					      } catch (IOException i) {
 					         i.printStackTrace();
@@ -101,8 +123,39 @@ public class Driver {
 			
 	}
 	
-	public static void deserialize() {
+	/**
+	 * Deserializes a statistic from a file and prints out
+	 * the number of horses and burros in the corresponding 
+	 * serialized state data.
+	 * @param stats
+	 * 
+	 */
+	public static void deserialize(ArrayList<Statistic> stats) {
 		
+		Statistic stat = null;
+		StateStatistic stateStats = (StateStatistic) stat;
+	      try {
+	    	  
+	         FileInputStream fileIn = new FileInputStream("HerdManagement.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         stateStats = (StateStatistic) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         
+	      } 
+	      catch (IOException i) {
+	         i.printStackTrace();
+	         return;
+	      } catch (ClassNotFoundException c) {
+	         System.out.println("State info class not found.\n");
+	         c.printStackTrace();
+	         return;
+	      } 
+	      
+	      
+	     System.out.printf("There are %s burros and %s horses in %s\n", stateStats.getNumBurros(),
+	    		 														 stateStats.getNumHorses(),
+	    		 														 stateStats.getState()); 
 	}
 	
 
