@@ -88,16 +88,21 @@ public class Driver {
 		// Serialization try catch block
 			try {
 				 FileOutputStream fileOut =
-				  new FileOutputStream("/tmp/HerdManagement.ser");
+				  new FileOutputStream("HerdManagement.ser");
 				  ObjectOutputStream out = new ObjectOutputStream(fileOut);
 				  out.writeObject(data);
 				  out.close();
 				  fileOut.close();
-		          System.out.printf("Serialized data is saved in /tmp/HerdManagement.ser");
+		          System.out.printf("Serialized data is saved in /(yourJavaProject)/HerdManagement.ser");
 					         
 					      } catch (IOException i) {
 					         i.printStackTrace();
 					      }
+			
+	}
+	
+	public static void deserialize() {
+		
 	}
 	
 
